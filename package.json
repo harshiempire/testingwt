@@ -1,0 +1,14 @@
+{
+  "name": "testingfolderwt",
+  "version": "1.0.0",
+  "description": "just done the npm init command to see what happens",
+  "main": "test.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "harshi",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
