@@ -1,141 +1,144 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-  </head>
-  <body>
-    <form>
-      <input placeholder="id" type="number" name="id" id="id" />
-      <input
-        placeholder="first name"
-        type="text"
-        name="first_name"
-        id="first_name"
-      />
-      <input
-        placeholder="last name"
-        type="text"
-        name="last_name"
-        id="last_name"
-      />
-      <input placeholder="email" type="text" name="email" id="email" />
-      <button id="add">Add</button>
-      <button id="edit">Edit</button>
-      <button id="delete">DELETE</button>
-    </form>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <body>
+        <form>
+            <input placeholder="id" type="number" name="id" id="id" />
+            <input
+                placeholder="first name"
+                type="text"
+                name="first_name"
+                id="first_name"
+            />
+            <input
+                placeholder="last name"
+                type="text"
+                name="last_name"
+                id="last_name"
+            />
+            <input placeholder="email" type="text" name="email" id="email" />
+            <button id="add">Add</button>
+            <button id="edit">Edit</button>
+            <button id="delete">DELETE</button>
+        </form>
 
-    <div id="studentdetails"></div>
-  </body>
-  <script>
-    const addStudent = async (e) => {
-      e.preventDefault();
-      const firstName = document.getElementById("first_name").value;
-      const lastName = document.getElementById("last_name").value;
-      const email = document.getElementById("email").value;
+        <div id="studentdetails"></div>
+    </body>
+    <script>
+        const addStudent = async (e) => {
+            e.preventDefault();
+            const firstName = document.getElementById("first_name").value;
+            const lastName = document.getElementById("last_name").value;
+            const email = document.getElementById("email").value;
 
-      const response = await fetch("/api/students", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          first_name: firstName,
-          last_name: lastName,
-          email: email,
-        }),
-      });
+            const response = await fetch("/api/students", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    first_name: firstName,
+                    last_name: lastName,
+                    email: email,
+                }),
+            });
 
-      const data = await response.json();
-      console.log("New student added:", data);
-      renderStudents();
-    };
+            const data = await response.json();
+            console.log("New student added:", data);
+            renderStudents();
+        };
 
-    document.getElementById("add").addEventListener("click", addStudent);
+        document.getElementById("add").addEventListener("click", addStudent);
 
-    const editStudent = async (e) => {
-      e.preventDefault();
-      try {
-        const id = document.getElementById("id").value;
-        const first_name = document.getElementById("first_name").value;
-        const last_name = document.getElementById("last_name").value;
-        const email = document.getElementById("email").value;
+        const editStudent = async (e) => {
+            e.preventDefault();
+            try {
+                const id = document.getElementById("id").value;
+                const first_name = document.getElementById("first_name").value;
+                const last_name = document.getElementById("last_name").value;
+                const email = document.getElementById("email").value;
 
-        const res = await fetch(`/api/students/${id}`, {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            first_name: first_name,
-            last_name: last_name,
-            email: email,
-          }),
-        });
-        const data = await res.json();
-        if (res.status == 404) {
-          console.log("Student not with the id");
-        } else console.log("Student edited:", data);
-        renderStudents();
-      } catch (err) {
-        console.log(err);
-      }
-    };
+                const res = await fetch(`/api/students/${id}`, {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        first_name: first_name,
+                        last_name: last_name,
+                        email: email,
+                    }),
+                });
+                const data = await res.json();
+                if (res.status == 404) {
+                    console.log("Student not with the id");
+                } else console.log("Student edited:", data);
+                renderStudents();
+            } catch (err) {
+                console.log(err);
+            }
+        };
 
-    document.getElementById("edit").addEventListener("click", editStudent);
+        document.getElementById("edit").addEventListener("click", editStudent);
 
-    const deleteStudent = async (e) => {
-      e.preventDefault();
-      try {
-        const id = document.getElementById("id").value;
-        const first_name = document.getElementById("first_name").value;
-        const last_name = document.getElementById("last_name").value;
-        const email = document.getElementById("email").value;
+        const deleteStudent = async (e) => {
+            e.preventDefault();
+            try {
+                const id = document.getElementById("id").value;
+                const first_name = document.getElementById("first_name").value;
+                const last_name = document.getElementById("last_name").value;
+                const email = document.getElementById("email").value;
 
-        const res = await fetch("/api/students/" + id, {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            first_name: first_name,
-            last_name: last_name,
-            email: email,
-          }),
-        });
-        renderStudents();
-      } catch (err) {
-        console.log(err);
-      }
-    };
+                const res = await fetch("/api/students/" + id, {
+                    method: "DELETE",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        first_name: first_name,
+                        last_name: last_name,
+                        email: email,
+                    }),
+                });
+                renderStudents();
+            } catch (err) {
+                console.log(err);
+            }
+        };
 
-    document.getElementById("delete").addEventListener("click", deleteStudent);
+        document
+            .getElementById("delete")
+            .addEventListener("click", deleteStudent);
 
-    const fetchStudents = async () => {
-      const students = await fetch("/api/students");
-      const studentDetails = await students.json();
-      return studentDetails;
-    };
+        const fetchStudents = async () => {
+            const students = await fetch("/api/students");
+            const studentDetails = await students.json();
+            return studentDetails;
+        };
 
-    const renderStudents = async () => {
-      const studentListContainer = document.getElementById("studentdetails");
-      studentListContainer.innerHTML = ""; // Clear previous content
+        const renderStudents = async () => {
+            const studentListContainer =
+                document.getElementById("studentdetails");
+            studentListContainer.innerHTML = ""; // Clear previous content
 
-      const students = await fetchStudents();
+            const students = await fetchStudents();
 
-      students.forEach((student) => {
-        const studentDiv = document.createElement("div");
-        studentDiv.innerHTML = `
+            students.forEach((student) => {
+                const studentDiv = document.createElement("div");
+                studentDiv.innerHTML = `
           <p>ID: ${student.id}</p>
           <p>Name: ${student.first_name} ${student.last_name}</p>
           <p>Email: ${student.email}</p>
           <hr>
         `;
-        studentListContainer.appendChild(studentDiv);
-      });
-    };
+                studentListContainer.appendChild(studentDiv);
+            });
+        };
 
-    window.onload = renderStudents;
-  </script>
+        window.onload = renderStudents;
+    </script>
 </html>
